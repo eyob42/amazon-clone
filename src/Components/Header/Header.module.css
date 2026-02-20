@@ -1,0 +1,273 @@
+/* Header.module.css */
+
+/* Main Header Container */
+.header_container {
+  background-color: #131921;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  gap: 20px;
+}
+
+/* Logo Section */
+.logo_container a img {
+  width: 100px;
+  object-fit: contain;
+  padding: 5px 0;
+}
+
+/* Delivery Section */
+.delivery {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.delivery span {
+  color: #ccc;
+}
+
+.delivery strong {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.update_link {
+  color: #ccc;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.update_link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* Search Section */
+.search_container {
+  display: flex;
+  flex: 1;
+  max-width: 800px;
+  margin: 0 10px;
+}
+
+.search_select {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  color: #0f1111;
+  font-size: 14px;
+  cursor: pointer;
+  width: 60px;
+}
+
+.search_select:hover {
+  background-color: #e5e5e5;
+}
+
+.search_input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.search_input:focus {
+  outline: 2px solid #febd69;
+}
+
+.search_button {
+  background-color: #febd69;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search_button:hover {
+  background-color: #f3a847;
+}
+
+/* Right Side Navigation */
+.order_container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Language Section */
+.language {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.language img {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+}
+
+.language span {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Account and Orders Links */
+.account_link, .orders_link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.account_link p, .orders_link p {
+  color: #ccc;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.account_link span, .orders_link span {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Cart Section */
+.cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: white;
+  padding: 5px;
+}
+
+.cart span:last-child {
+  position: absolute;
+  font-weight: bold;
+  top: -6px;
+  font-size: 20px;
+  background-color: #1a1a1a;
+  left: 14px;
+  color: orange;
+  padding: 0 2px;
+  border-radius: 50%;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cart-text {
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 25px;
+}
+
+/* Lower Header / Bottom Navigation */
+.lower_container {
+  background-color: #232f3e;
+  padding: 8px 20px;
+}
+
+.lower_container ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.lower_container ul li {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.lower_container ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu_item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+}
+
+.menu_item svg {
+  font-size: 18px;
+}
+
+/* Hover Effects - From Your Comments */
+.order_container a:hover,
+.delivery:hover,
+.logo_container a:hover,
+.lower_container ul li:hover {
+  border: 1px solid white;
+  border-radius: 3px;
+  padding: 4px; /* Adjust padding to account for border */
+}
+
+/* Specific adjustments for elements with padding */
+.order_container a:hover {
+  padding: 4px;
+}
+
+.delivery:hover {
+  padding: 4px;
+}
+
+.logo_container a:hover {
+  padding: 4px;
+}
+
+.lower_container ul li:hover {
+  padding: 4px 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header_container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .delivery {
+    display: none;
+  }
+  
+  .language {
+    display: none;
+  }
+  
+  .search_container {
+    max-width: 100%;
+  }
+  
+  .order_container {
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .lower_container ul {
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+}
