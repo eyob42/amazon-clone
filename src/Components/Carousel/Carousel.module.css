@@ -1,17 +1,337 @@
-.hero__img {
-    position: relative;
+/* Hero Section Styles */
+.hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
+.hero__img {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  max-height: 600px;
+  overflow: hidden;
+}
 
-Comment code
+.hero__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* Optional zoom effect on hover */
+.hero:hover .hero__img img {
+  transform: scale(1.02);
+}
+
+/* Gradient Overlay - Your original code improved */
 .hero__img::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 300px;
-    background-image: linear-gradient(
-        to bottom, rgba(255, 255, 255 , 0),
-                   rgba(255, 255, 255)); /* Adjust the opacity as needed */
-    z-index: 1; Ensure the overlay is above the image
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%; /* Use percentage for responsiveness */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.8) 80%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  z-index: 2;
+  pointer-events: none; /* Allows clicking through the overlay */
+}
+
+/* Additional overlay for better text contrast (optional) */
+.hero__img::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.3) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Hero Content - If you have text overlay */
+.hero__content {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+  z-index: 3;
+  width: 80%;
+  max-width: 800px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero__content h1 {
+  font-size: clamp(24px, 5vw, 48px);
+  margin-bottom: 16px;
+  font-weight: 700;
+  animation: fadeInUp 0.8s ease;
+}
+
+.hero__content p {
+  font-size: clamp(14px, 2vw, 18px);
+  margin-bottom: 24px;
+  opacity: 0.9;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.hero__button {
+  display: inline-block;
+  padding: 12px 32px;
+  background-color: #febd69;
+  color: #131921;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.hero__button:hover {
+  background-color: #f3a847;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Multiple gradient options - Choose one */
+
+/* Option 1: Smooth fade to white (your original style) */
+.gradient-option-1::before {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0.9) 80%,
+    #ffffff 100%
+  );
+}
+
+/* Option 2: Fade to Amazon's background color */
+.gradient-option-2::before {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(234, 237, 237, 0.3) 50%,
+    rgba(234, 237, 237, 0.8) 80%,
+    #eaeded 100%
+  );
+}
+
+/* Option 3: Dark to light for better text contrast */
+.gradient-option-3::before {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(255, 255, 255, 0.7) 90%,
+    #ffffff 100%
+  );
+}
+
+/* Option 4: Multiple layers effect */
+.gradient-option-4::before {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(255, 255, 255, 0.4) 70%,
+    #ffffff 100%
+  );
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* Optional: Parallax effect */
+.hero.parallax .hero__img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+}
+
+.hero.parallax .hero__content {
+  position: relative;
+  margin-top: 100vh;
+  background: white;
+  padding: 40px;
+  width: 100%;
+  left: 0;
+  transform: none;
+  text-align: left;
+  color: #333;
+  text-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero__img {
+    min-height: 350px;
+    max-height: 500px;
+  }
+  
+  .hero__img::before {
+    height: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__img {
+    min-height: 300px;
+    max-height: 400px;
+  }
+  
+  .hero__img::before {
+    height: 35%;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 40%,
+      rgba(255, 255, 255, 0.9) 70%,
+      #ffffff 100%
+    );
+  }
+  
+  .hero__content {
+    bottom: 20px;
+    width: 90%;
+  }
+  
+  .hero__button {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__img {
+    min-height: 250px;
+    max-height: 350px;
+  }
+  
+  .hero__img::before {
+    height: 40%;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.7) 30%,
+      rgba(255, 255, 255, 0.95) 70%,
+      #ffffff 100%
+    );
+  }
+  
+  .hero__content {
+    bottom: 15px;
+  }
+  
+  .hero__content h1 {
+    margin-bottom: 8px;
+  }
+  
+  .hero__content p {
+    margin-bottom: 12px;
+  }
+}
+
+/* Optional: Loading animation */
+.hero.loading .hero__img {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Optional: Carousel/Slider styles */
+.hero.carousel {
+  position: relative;
+}
+
+.hero.carousel .hero__img {
+  display: none;
+}
+
+.hero.carousel .hero__img.active {
+  display: block;
+}
+
+.carousel__controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.carousel__button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.carousel__button:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.carousel__button svg {
+  width: 20px;
+  height: 20px;
+  fill: #131921;
 }
