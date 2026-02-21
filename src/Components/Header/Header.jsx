@@ -6,7 +6,7 @@ import LowerHeader from "./LowerHeader";
 
 function Header() {
   return (
-    <header>
+    <header className={classes.header}>
       <div className={classes.header_container}>
         {/* Logo Section */}
         <div className={classes.logo_container}>
@@ -20,15 +20,15 @@ function Header() {
 
         {/* Delivery Section */}
         <div className={classes.delivery}>
-          <span>Deliver to</span>
-          <strong>Grand Pra... 75054</strong>
+          <span className={classes.delivery_label}>Deliver to</span>
+          <strong className={classes.delivery_location}>Grand Pra... 75054</strong>
           <a href="/" className={classes.update_link}>Update location</a>
         </div>
 
         {/* Search Section */}
         <div className={classes.search_container}>
           <select className={classes.search_select}>
-            <option value="">All</option>
+            <option value="all">All</option>
             <option value="electronics">Electronics</option>
             <option value="books">Books</option>
             <option value="clothing">Clothing</option>
@@ -39,7 +39,7 @@ function Header() {
             placeholder="Search Amazon" 
           />
           <button type="button" className={classes.search_button}>
-            <BsSearch size={25} />
+            <BsSearch size={22} />
           </button>
         </div>
 
@@ -54,22 +54,23 @@ function Header() {
             <span>EN</span>
           </a>
 
-          {/* Account Section - Sign In / Account & Lists */}
+          {/* Account Section */}
           <a href="/" className={classes.account_link}>
-            <p>Sign In</p>
-            <span>Account & Lists</span>
+            <p className={classes.greeting}>Hello, Sign in</p>
+            <span className={classes.account_text}>Account & Lists</span>
           </a>
 
-          {/* Orders Section - return / & Orders */}
+          {/* Orders Section */}
           <a href="/" className={classes.orders_link}>
-            <p>return</p>
-            <span>& Orders</span>
+            <p className={classes.returns_text}>Returns</p>
+            <span className={classes.orders_text}>& Orders</span>
           </a>
 
           {/* Cart Section */}
           <a href="/" className={classes.cart}>
-            <BiCart size={35} />
-            <span>0</span>
+            <BiCart size={32} />
+            <span className={classes.cart_count}>0</span>
+            <span className={classes.cart_text}>Cart</span>
           </a>
         </div>
       </div>

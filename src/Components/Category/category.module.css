@@ -1,30 +1,33 @@
+/* Category.module.css */
+
+.category__container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 20px 40px 40px;
+  max-width: 1400px;
+  margin: -50px auto 0; /* Negative margin to overlap carousel */
+  position: relative;
+  z-index: 10;
+}
+
 .category {
-  height: 350px;
-  width: 300px; /* Slightly smaller for better grid fit */
   background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  height: 380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   border: 1px solid #f0f0f0;
 }
 
 .category:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border-color: #febd69;
-}
-
-.category img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover; /* Changed from contain for better visuals */
-  transition: transform 0.3s ease;
-  background-color: #f8f8f8;
-}
-
-.category:hover img {
-  transform: scale(1.02);
 }
 
 .category a {
@@ -36,7 +39,7 @@
 }
 
 .category span {
-  padding: 15px 15px 5px;
+  padding: 20px 20px 10px;
 }
 
 .category h2 {
@@ -45,125 +48,117 @@
   font-weight: 600;
   color: #0f1111;
   line-height: 1.3;
+  min-height: 46px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 46px;
+}
+
+.category img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  padding: 0 15px;
+  transition: transform 0.3s ease;
+}
+
+.category:hover img {
+  transform: scale(1.02);
 }
 
 .category p {
-  margin: 0;
-  padding: 10px 15px 15px;
-  font-weight: 500;
-  font-size: 14px;
+  margin: auto 0 0;
+  padding: 15px 20px 20px;
+  font-weight: 600;
+  font-size: 13px;
   color: #007185;
-  transition: color 0.2s ease;
-  position: relative;
-  display: inline-block;
-}
-
-.category a:hover p {
-  color: #c7511f;
-  text-decoration: underline;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .category p::after {
-  content: " ›";
-  font-size: 18px;
+  content: "›";
+  font-size: 20px;
   font-weight: bold;
-  margin-left: 3px;
-  transition: margin-left 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
-.category a:hover p::after {
-  margin-left: 8px;
-}
-
-.category__container {
-  position: relative;
-  margin-top: -30px; /* Overlap with header slightly like Amazon */
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
-  padding: 30px 40px;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  background: transparent;
-  z-index: 10;
-}
-
-/* Add a subtle background to the whole section */
-.category__container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, #eaeded 0%, #f8f8f8 100%);
-  z-index: -1;
+.category:hover p::after {
+  transform: translateX(5px);
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .category {
-    width: 260px;
-    height: 330px;
-  }
-  
-  .category img {
-    height: 200px;
+  .category__container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px 30px;
+    margin: -40px auto 0;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .category__container {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 20px;
     padding: 20px;
-    margin-top: 10px;
+    margin: -30px auto 0;
   }
   
   .category {
-    width: 100%;
-    height: auto;
+    height: 360px;
   }
   
   .category img {
     height: 180px;
   }
-  
-  .category h2 {
-    font-size: 16px;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .category__container {
     grid-template-columns: 1fr;
+    gap: 20px;
     padding: 15px;
+    margin: -20px auto 0;
+  }
+  
+  .category {
+    height: 340px;
+    max-width: 400px;
+    margin: 0 auto;
   }
   
   .category img {
-    height: 200px;
+    height: 170px;
+  }
+  
+  .category h2 {
+    font-size: 16px;
+    min-height: 40px;
   }
 }
 
-/* Optional: Add a "limited time" or "deal" badge */
+/* Animation for cards appearing */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .category {
-  position: relative;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
-.category::before {
-  display: none; /* Remove if you don't want badges */
-}
-
-/* For a more Amazon-like look, you can add a price or rating area */
-.category-price {
-  color: #B12704;
-  font-size: 18px;
-  font-weight: 700;
-  margin-top: 5px;
-}
+/* Stagger animation for each card */
+.category:nth-child(1) { animation-delay: 0.1s; }
+.category:nth-child(2) { animation-delay: 0.2s; }
+.category:nth-child(3) { animation-delay: 0.3s; }
+.category:nth-child(4) { animation-delay: 0.4s; }
