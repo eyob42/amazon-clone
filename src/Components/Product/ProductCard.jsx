@@ -3,6 +3,7 @@ import { Rating } from "@mui/material";
 import CurrencyFormat from "../CurrencyFormat/CurrencyFormat";
 import Classes from './Product.module.css';
 import { FaShoppingCart } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 
 function ProductCard({ product }) {
   const { title, price, rating, image, category } = product;
@@ -12,9 +13,9 @@ function ProductCard({ product }) {
 
   return (
     <div className={Classes.card__container}>
-      <a href={`/product/${product.id}`} className={Classes.image__link}>
+      <Link to={`/product/${product.id}`} className={Classes.image__link}>
         <img src={image} alt={title} loading="lazy" />
-      </a>
+      </Link>
       
       <div className={Classes.category__badge}>{category}</div>
       

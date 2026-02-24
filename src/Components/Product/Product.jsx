@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
 import classes from './Product.module.css';
+import Loader from '../Loader/Loader';
 
 function Product() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -21,20 +22,27 @@ function Product() {
             });
     }, []);
 
-    if (loading) {
-        return <div className={classes.loading}>Loading products...</div>;
-    }
+    // if (loading) {
+    //     return <div className={classes.loading}>Loading products...</div>;
+    // }
 
-    if (error) {
-        return <div className={classes.error}>{error}</div>;
-    }
+    // if (error) {
+    //     return <div className={classes.error}>{error}</div>;
+    // }
 
     return (
-        <div className={classes.product__container}>
-            {products.map((singleProduct) => (
-                <ProductCard product={singleProduct} key={singleProduct.id} />
-            ))}
-        </div>
+        <> 
+
+        {
+            loading? (<Loader />) : ( <div className={classes.product__container}>
+                {products.map((singleProduct) => (
+                    <ProductCard product={singleProduct} key={singleProduct.id} />
+                ))}
+            </div>)
+
+        }
+           
+        </>
     );
 }
 

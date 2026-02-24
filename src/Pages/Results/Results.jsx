@@ -8,7 +8,7 @@ import ProductCard from "../../Components/Product/ProductCard";
 
 function Results() {
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { categoryName } = useParams();
 
