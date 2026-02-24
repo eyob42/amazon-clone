@@ -5,6 +5,7 @@ import Cart from './Pages/Cart/Cart'
 import Payment from './Pages/Payment/Payment'
 import Orders from './Pages/Orders/Orders'
 import Landing from './Pages/Landing/Landing'
+import Results from './Pages/Results/Results'
 
 function Routing() {
   return (
@@ -12,9 +13,10 @@ function Routing() {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/auth' element={<SignIn />} />
-        <Route path='/cart' element={<Cart />} />
         <Route path='/payments' element={<Payment />} />
         <Route path='/orders' element={<Orders />} />
+        <Route path='/category/:categoryName' element={<Results />} />
+        <Route path='/cart' element={<Cart />} />
       </Routes>
     </Router>
   )
