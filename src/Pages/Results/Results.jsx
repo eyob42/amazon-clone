@@ -14,18 +14,18 @@ function Results() {
 
   // Map URL categories to API categories
   const categoryMap = {
-    "electronics": "electronics",
-    "jewelry": "jewelery", // Note: API uses "jewelery" (misspelled)
+    electronics: "electronics",
+    jewelry: "jewelery", // Note: API uses "jewelery" (misspelled)
     "men's clothing": "men's clothing",
-    "women's clothing": "women's clothing"
+    "women's clothing": "women's clothing",
   };
 
   useEffect(() => {
     setLoading(true);
-    
+
     // Get the correct API category name
     const apiCategory = categoryMap[categoryName] || categoryName;
-    
+
     axios
       .get(`${productUrl}/products/category/${apiCategory}`)
       .then((response) => {
@@ -70,7 +70,7 @@ function Results() {
           Category: <strong>{categoryName}</strong> ({results.length} products)
         </p>
         <hr />
-        
+
         {results.length === 0 ? (
           <div className={Classes.noProducts}>
             <p>No products found in this category.</p>
@@ -81,7 +81,11 @@ function Results() {
         ) : (
           <div className={Classes.products_container}>
             {results.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                renderAdd={true} // 👈 Add this line to show the Add to Cart button
+              />
             ))}
           </div>
         )}
