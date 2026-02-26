@@ -1,12 +1,25 @@
-  import React from "react";
+  import React, { useContext } from "react";
   import { Rating } from "@mui/material";
   import CurrencyFormat from "../CurrencyFormat/CurrencyFormat";
   import Classes from './Product.module.css';
   import { FaShoppingCart } from 'react-icons/fa';
   import { Link } from "react-router-dom";
+  import { Type } from "../../Utility/actiontype";
+  import { DataContext } from "../DataProvider/DataProvider";
 
   function ProductCard({ product, flex, renderDesc }) {
     const { title, price, rating, image, category, description } = product;
+    
+      const [state, dispatch] = useContext(DataContext);
+      // console.log(state);
+      function addToCart() {
+      dispatch({
+        type: Type.ADD_TO_BASKET,
+        item: {
+          title, price, rating, image, category, description
+        }
+      });
+    }
     
     // Truncate title if too long
     const truncatedTitle = title.length > 50 ? title.substring(0, 50) + '...' : title;
@@ -32,7 +45,7 @@
           {/* {price < 50 && <span className={Classes.deal__badge}>Deal</span>} */}
         </div>
 
-        <button className={Classes.button}>
+        <button className={Classes.button} onClick={addToCart}>
           <FaShoppingCart className={Classes.cart__icon} />
           Add to Cart
         </button>
