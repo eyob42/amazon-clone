@@ -33,7 +33,10 @@ function ProductDetail() {
       {loading ? (
         <Loader />
       ) : (
-        product && <ProductCard product={product} />
+        product && <ProductCard 
+        product={product}
+        flex={true} 
+        renderDesc={true} />
       )}
     </LayOut>
   );
