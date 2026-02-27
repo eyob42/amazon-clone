@@ -29,6 +29,28 @@ export const reducer = (state, action) => {
                 };
             }
 
+        case Type.REMOVE_FROM_BASKET:
+            const index = state.basket.findIndex(item => item.id === action.id);
+            let newBasket = [...state.basket];
+            
+            if (index !== -1) { // Check if item exists (findIndex returns -1 if not found)
+                if (newBasket[index].amount > 1) {
+                    // Decrease amount if more than 1
+                    newBasket[index] = {
+                        ...newBasket[index],
+                        amount: newBasket[index].amount - 1
+                    };
+                } else {
+                    // Remove item completely if amount is 1
+                    newBasket.splice(index, 1);
+                }
+            }
+            
+            return {
+                ...state,
+                basket: newBasket
+            };
+
         default:
             return state;
     }
