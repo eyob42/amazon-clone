@@ -62,7 +62,7 @@ function Header() {
           </Link>
 
           {/* Account Section */}
-          <Link to="/account" className={classes.account_link}>
+          <Link to="/auth" className={classes.account_link}>
             <p className={classes.greeting}>Hello, Sign in</p>
             <span className={classes.account_text}>Account & Lists</span>
           </Link>
