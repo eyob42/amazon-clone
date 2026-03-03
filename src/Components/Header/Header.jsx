@@ -7,20 +7,26 @@ import { Link } from "react-router-dom";
 import { DataContext } from "../DataProvider/DataProvider";
 
 function Header() {
+  const [{ user, basket }, dispatch] = useContext(DataContext);
+  const totalItem = basket?.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
 
-  const [{ basket }, dispatch] = useContext(DataContext);
-  const totalItem = basket?.reduce(( amount , item)=>{
-    return item.amount + amount
-  },0)
+  // Get user display name (email prefix or actual name)
+  const getUserDisplayName = () => {
+    if (!user) return "Sign in";
+    if (user.displayName) return user.displayName.split(' ')[0];
+    return user.email?.split("@")[0] || "User";
+  };
   return (
     <header className={classes.header}>
       <div className={classes.header_container}>
         {/* Logo Section */}
         <div className={classes.logo_container}>
           <Link to="/">
-            <img 
-              src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" 
-              alt="Amazon Logo" 
+            <img
+              src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
+              alt="Amazon Logo"
             />
           </Link>
         </div>
@@ -28,8 +34,12 @@ function Header() {
         {/* Delivery Section */}
         <div className={classes.delivery}>
           <span className={classes.delivery_label}>Deliver to</span>
-          <strong className={classes.delivery_location}>Grand Pra... 75054</strong>
-          <Link to="/update-location" className={classes.update_link}>Update location</Link>
+          <strong className={classes.delivery_location}>
+            Grand Pra... 75054
+          </strong>
+          <Link to="/update-location" className={classes.update_link}>
+            Update location
+          </Link>
         </div>
 
         {/* Search Section */}
@@ -40,10 +50,10 @@ function Header() {
             <option value="books">Books</option>
             <option value="clothing">Clothing</option>
           </select>
-          <input 
-            type="text" 
-            className={classes.search_input} 
-            placeholder="Search Amazon" 
+          <input
+            type="text"
+            className={classes.search_input}
+            placeholder="Search Amazon"
           />
           <button type="button" className={classes.search_button}>
             <BsSearch size={22} />
@@ -54,16 +64,18 @@ function Header() {
         <div className={classes.order_container}>
           {/* Language Selector - EN with flag */}
           <Link to="/" className={classes.language}>
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/a/4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png" 
-              alt="US Flag" 
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/thumb/a/4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png"
+              alt="US Flag"
             />
             <span>EN</span>
           </Link>
 
           {/* Account Section */}
-          <Link to="/auth" className={classes.account_link}>
-            <p className={classes.greeting}>Hello, Sign in</p>
+          <Link to={"/auth"} className={classes.account_link}>
+            <p className={classes.greeting}>
+              Hello, {getUserDisplayName()}
+            </p>
             <span className={classes.account_text}>Account & Lists</span>
           </Link>
 

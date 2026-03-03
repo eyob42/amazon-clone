@@ -2,6 +2,7 @@ import { Type } from "./actiontype";
 
 export const initialState = {
     basket: [],
+    user: null,  // Add user to initial state!
 }
 
 export const reducer = (state, action) => {
@@ -33,15 +34,13 @@ export const reducer = (state, action) => {
             const index = state.basket.findIndex(item => item.id === action.id);
             let newBasket = [...state.basket];
             
-            if (index !== -1) { // Check if item exists (findIndex returns -1 if not found)
+            if (index !== -1) {
                 if (newBasket[index].amount > 1) {
-                    // Decrease amount if more than 1
                     newBasket[index] = {
                         ...newBasket[index],
                         amount: newBasket[index].amount - 1
                     };
                 } else {
-                    // Remove item completely if amount is 1
                     newBasket.splice(index, 1);
                 }
             }
@@ -49,6 +48,13 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 basket: newBasket
+            };
+
+        // ADD THIS CASE - IT'S MISSING!
+        case Type.SET_USER:
+            return {
+                ...state,
+                user: action.user
             };
 
         default:
