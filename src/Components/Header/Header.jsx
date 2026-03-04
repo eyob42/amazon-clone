@@ -5,6 +5,7 @@ import classes from "./Header.module.css";
 import LowerHeader from "./LowerHeader";
 import { Link } from "react-router-dom";
 import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../Utility/firebase";
 
 function Header() {
   const [{ user, basket }, dispatch] = useContext(DataContext);
@@ -15,7 +16,7 @@ function Header() {
   // Get user display name (email prefix or actual name)
   const getUserDisplayName = () => {
     if (!user) return "Sign in";
-    if (user.displayName) return user.displayName.split(' ')[0];
+    if (user.displayName) return user.displayName.split(" ")[0];
     return user.email?.split("@")[0] || "User";
   };
   return (
@@ -72,11 +73,24 @@ function Header() {
           </Link>
 
           {/* Account Section */}
-          <Link to={"/auth"} className={classes.account_link}>
-            <p className={classes.greeting}>
-              Hello, {getUserDisplayName()}
-            </p>
-            <span className={classes.account_text}>Account & Lists</span>
+          <Link
+            to={!user ? "/auth" : "#"}
+            className={classes.account_link}
+            onClick={user ? () => auth.signOut() : undefined}
+          >
+            {user ? (
+              <>
+                <p className={classes.greeting}>
+                  Hello, {getUserDisplayName()}
+                </p>
+                <span className={classes.account_text}>Sign Out</span>
+              </>
+            ) : (
+              <>
+                <p className={classes.greeting}>Hello, Sign In</p>
+                <span className={classes.account_text}>Account & Lists</span>
+              </>
+            )}
           </Link>
 
           {/* Orders Section */}
