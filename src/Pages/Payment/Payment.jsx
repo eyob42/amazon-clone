@@ -4,13 +4,19 @@ import LayOut from "../../Components/LayOut/LayOut";
 import { DataContext } from "../../Components/DataProvider/DataProvider";
 import ProductCard from "../../Components/Product/ProductCard";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios"; // Make sure to install: npm install axios
+import { useNavigate } from "react-router-dom";
+import { Type } from "../../Utility/actiontype";
 
 function Payment() {
-  const [{ user, basket }] = useContext(DataContext);
+  const [{ user, basket }, dispatch] = useContext(DataContext);
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
+  
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
 
   const totalItem = basket?.reduce((amount, item) => {
     return item.amount + amount;
@@ -25,15 +31,18 @@ function Payment() {
     setProcessing(true);
     setError(null);
 
+    // 1. Check if stripe is loaded
     if (!stripe || !elements) {
       setError("Stripe not loaded yet");
       setProcessing(false);
       return;
     }
 
+    // 2. Get the card element
     const cardElement = elements.getElement(CardElement);
 
     try {
+      // 3. Create payment method with Stripe
       const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
@@ -41,17 +50,66 @@ function Payment() {
 
       if (stripeError) {
         setError(stripeError.message);
-        console.error('Stripe error:', stripeError);
-      } else {
-        console.log('Payment success:', paymentMethod);
-        // Send paymentMethod.id to your backend
-        // await axios.post('http://localhost:5000/api/payments', {
-        //   paymentMethodId: paymentMethod.id,
-        //   amount: totalPrice,
-        // });
+        setProcessing(false);
+        return;
       }
+
+      // 4. Send payment to your backend
+      console.log('Sending to backend:', {
+        paymentMethodId: paymentMethod.id,
+        amount: totalPrice,
+        items: basket
+      });
+
+      const { data } = await axios.post('http://localhost:5000/payment/create', null, {
+        params: {
+          total: Math.round(totalPrice * 100) // Convert to cents
+        }
+      });
+
+      console.log('Backend response:', data);
+
+      // 5. Confirm the payment
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
+        data.clientSecret,
+        {
+          payment_method: paymentMethod.id,
+        }
+      );
+
+      if (confirmError) {
+        setError(confirmError.message);
+        setProcessing(false);
+        return;
+      }
+
+      // 6. Payment successful!
+      console.log('Payment successful:', paymentIntent);
+      setSucceeded(true);
+      
+      // 7. Save order to database (optional - if you have orders endpoint)
+      try {
+        await axios.post('http://localhost:5000/api/orders', {
+          items: basket,
+          total: totalPrice,
+          paymentIntentId: paymentIntent.id,
+          userEmail: user?.email
+        });
+      } catch (orderError) {
+        console.error('Error saving order:', orderError);
+      }
+
+      // 8. Clear the basket
+      dispatch({ type: Type.CLEAR_BASKET });
+
+      // 9. Redirect to orders page after 2 seconds
+      setTimeout(() => {
+        navigate('/orders');
+      }, 2000);
+
     } catch (err) {
-      setError('Payment failed: ' + err.message);
+      console.error('Payment error:', err);
+      setError(err.response?.data?.message || err.message || 'Payment failed');
     } finally {
       setProcessing(false);
     }
@@ -101,44 +159,54 @@ function Payment() {
         <div className={Classes.flex}>
           <h3>Payment Methods</h3>
           <div className={Classes.payment__form}>
-            <div className={Classes.total}>
-              <span>Total:</span>
-              <span className={Classes.total__amount}>
-                ${totalPrice?.toFixed(2) || "0.00"}
-              </span>
-            </div>
             
-            <form onSubmit={handlePayment}>
-              <div className={Classes.card__element}>
-                <CardElement 
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#424770',
-                        '::placeholder': {
-                          color: '#aab7c4',
-                        },
-                      },
-                      invalid: {
-                        color: '#9e2146',
-                      },
-                    },
-                    hidePostalCode: true, // Hide postal code field
-                  }}
-                />
+            {succeeded ? (
+              <div className={Classes.success}>
+                <h4>✅ Payment Successful!</h4>
+                <p>Thank you for your order. Redirecting to orders page...</p>
               </div>
-              
-              {error && <div className={Classes.error}>{error}</div>}
-              
-              <button 
-                type="submit" 
-                className={Classes.pay__button}
-                disabled={!stripe || processing}
-              >
-                {processing ? "Processing..." : `Pay $${totalPrice?.toFixed(2) || "0.00"}`}
-              </button>
-            </form>
+            ) : (
+              <>
+                <div className={Classes.total}>
+                  <span>Total:</span>
+                  <span className={Classes.total__amount}>
+                    ${totalPrice?.toFixed(2) || "0.00"}
+                  </span>
+                </div>
+                
+                <form onSubmit={handlePayment}>
+                  <div className={Classes.card__element}>
+                    <CardElement 
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                              color: '#aab7c4',
+                            },
+                          },
+                          invalid: {
+                            color: '#9e2146',
+                          },
+                        },
+                        hidePostalCode: true,
+                      }}
+                    />
+                  </div>
+                  
+                  {error && <div className={Classes.error}>{error}</div>}
+                  
+                  <button 
+                    type="submit" 
+                    className={Classes.pay__button}
+                    disabled={!stripe || processing || succeeded}
+                  >
+                    {processing ? "Processing..." : `Pay $${totalPrice?.toFixed(2) || "0.00"}`}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>
