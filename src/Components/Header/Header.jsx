@@ -66,7 +66,7 @@ function Header() {
           {/* Language Selector - EN with flag */}
           <Link to="/" className={classes.language}>
             <img
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/a/4/Flag_of_the_United_States.svg/1024px-Flag_of_the_United_States.svg.png"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Flag_of_the_United_States_%28DDD-F-416E_specifications%29.svg/1280px-Flag_of_the_United_States_%28DDD-F-416E_specifications%29.svg.png"
               alt="US Flag"
             />
             <span>EN</span>
