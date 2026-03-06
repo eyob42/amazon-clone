@@ -13,7 +13,7 @@ function Payment() {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-  
+
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
@@ -43,10 +43,11 @@ function Payment() {
 
     try {
       // 3. Create payment method with Stripe
-      const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-      });
+      const { error: stripeError, paymentMethod } =
+        await stripe.createPaymentMethod({
+          type: "card",
+          card: cardElement,
+        });
 
       if (stripeError) {
         setError(stripeError.message);
@@ -55,27 +56,29 @@ function Payment() {
       }
 
       // 4. Send payment to your backend
-      console.log('Sending to backend:', {
+      console.log("Sending to backend:", {
         paymentMethodId: paymentMethod.id,
         amount: totalPrice,
-        items: basket
+        items: basket,
       });
 
-      const { data } = await axios.post('http://localhost:5000/payment/create', null, {
-        params: {
-          total: Math.round(totalPrice * 100) // Convert to cents
-        }
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/payment/create",
+        null,
+        {
+          params: {
+            total: Math.round(totalPrice * 100), // Convert to cents
+          },
+        },
+      );
 
-      console.log('Backend response:', data);
+      console.log("Backend response:", data);
 
       // 5. Confirm the payment
-      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
-        data.clientSecret,
-        {
+      const { error: confirmError, paymentIntent } =
+        await stripe.confirmCardPayment(data.clientSecret, {
           payment_method: paymentMethod.id,
-        }
-      );
+        });
 
       if (confirmError) {
         setError(confirmError.message);
@@ -84,32 +87,49 @@ function Payment() {
       }
 
       // 6. Payment successful!
-      console.log('Payment successful:', paymentIntent);
+      console.log("Payment successful:", paymentIntent);
       setSucceeded(true);
-      
-      // 7. Save order to database (optional - if you have orders endpoint)
-      try {
-        await axios.post('http://localhost:5000/api/orders', {
-          items: basket,
-          total: totalPrice,
-          paymentIntentId: paymentIntent.id,
-          userEmail: user?.email
-        });
-      } catch (orderError) {
-        console.error('Error saving order:', orderError);
-      }
 
+      // 7. Save order to database
+      try {
+        const orderData = {
+          userEmail: user?.email,
+          items: basket.map((item) => ({
+            productId: item.id || item._id,
+            title: item.title,
+            price: item.price,
+            quantity: item.amount,
+            imageUrl: item.imageUrl, // ✅ THIS MUST COME FROM YOUR PRODUCT DATA!
+          })),
+          totalAmount: totalPrice,
+          paymentIntentId: paymentIntent.id,
+        };
+
+        console.log("Saving order with REAL images:", orderData);
+        await axios.post("http://localhost:5000/api/orders", orderData);
+      } catch (orderError) {
+        console.error("Error saving order:", orderError);
+      }
+      console.log(
+        "Basket items:",
+        basket.map((item) => ({
+          id: item.id,
+          title: item.title,
+          imageUrl: item.imageUrl,
+          image: item.image, // Check both fields
+        })),
+      );
       // 8. Clear the basket
-      dispatch({ type: Type.CLEAR_BASKET });
+      dispatch({ type: Type.EMPTY_BASKET });
 
       // 9. Redirect to orders page after 2 seconds
       setTimeout(() => {
-        navigate('/orders');
+        navigate("/orders");
+        s;
       }, 2000);
-
     } catch (err) {
-      console.error('Payment error:', err);
-      setError(err.response?.data?.message || err.message || 'Payment failed');
+      console.error("Payment error:", err);
+      setError(err.response?.data?.message || err.message || "Payment failed");
     } finally {
       setProcessing(false);
     }
@@ -159,7 +179,6 @@ function Payment() {
         <div className={Classes.flex}>
           <h3>Payment Methods</h3>
           <div className={Classes.payment__form}>
-            
             {succeeded ? (
               <div className={Classes.success}>
                 <h4>✅ Payment Successful!</h4>
@@ -173,36 +192,38 @@ function Payment() {
                     ${totalPrice?.toFixed(2) || "0.00"}
                   </span>
                 </div>
-                
+
                 <form onSubmit={handlePayment}>
                   <div className={Classes.card__element}>
-                    <CardElement 
+                    <CardElement
                       options={{
                         style: {
                           base: {
-                            fontSize: '16px',
-                            color: '#424770',
-                            '::placeholder': {
-                              color: '#aab7c4',
+                            fontSize: "16px",
+                            color: "#424770",
+                            "::placeholder": {
+                              color: "#aab7c4",
                             },
                           },
                           invalid: {
-                            color: '#9e2146',
+                            color: "#9e2146",
                           },
                         },
                         hidePostalCode: true,
                       }}
                     />
                   </div>
-                  
+
                   {error && <div className={Classes.error}>{error}</div>}
-                  
-                  <button 
-                    type="submit" 
+
+                  <button
+                    type="submit"
                     className={Classes.pay__button}
                     disabled={!stripe || processing || succeeded}
                   >
-                    {processing ? "Processing..." : `Pay $${totalPrice?.toFixed(2) || "0.00"}`}
+                    {processing
+                      ? "Processing..."
+                      : `Pay $${totalPrice?.toFixed(2) || "0.00"}`}
                   </button>
                 </form>
               </>

@@ -1,0 +1,268 @@
+.orders__container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.orders__title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #0f1111;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Loading and empty states */
+.loading, .login__message, .no__orders {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Orders list */
+.orders__list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.order__card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.order__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Order header */
+.order__header {
+  background: #f8f9fa;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.order__info p {
+  margin: 5px 0;
+  color: #495057;
+}
+
+.order__date {
+  font-size: 14px;
+}
+
+.order__id {
+  font-size: 12px;
+  color: #868e96;
+  font-family: monospace;
+}
+
+.order__total {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total__amount {
+  color: #B12704;
+  font-size: 22px;
+}
+
+/* Order items */
+.order__items {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order__item {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.order__item:hover {
+  background: #f1f3f5;
+}
+
+.order__item img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.item__details {
+  flex: 1;
+}
+
+.item__details h4 {
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  color: #0f1111;
+}
+
+.item__price {
+  font-size: 14px;
+  color: #495057;
+  margin: 5px 0;
+}
+
+.item__subtotal {
+  font-size: 15px;
+  font-weight: 600;
+  color: #B12704;
+  margin: 5px 0;
+}
+
+/* Order status */
+.order__status {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status.paid {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.status.shipped {
+  background: #cce5ff;
+  color: #004085;
+  border: 1px solid #b8daff;
+}
+
+.status.delivered {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.status.cancelled {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .orders__title {
+    font-size: 24px;
+  }
+  
+  .order__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .order__total {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .order__item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .order__item img {
+    width: 120px;
+    height: 120px;
+  }
+}
+.item__image {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e9ecef;
+}
+
+.item__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.item__price__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.item__price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #B12704;
+}
+
+.item__quantity {
+  font-size: 14px;
+  color: #666;
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.item__subtotal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+  padding-top: 8px;
+  border-top: 1px dashed #dee2e6;
+}
+
+.subtotal__amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #B12704;
+}
