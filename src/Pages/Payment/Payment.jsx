@@ -63,15 +63,11 @@ function Payment() {
         items: basket,
       });
 
-      const { data } = await axios.post(
-        `${BASE_URL}/payment/create`,
-        null,
-        {
-          params: {
-            total: Math.round(totalPrice * 100), // Convert to cents
-          },
+      const { data } = await axios.post(`${BASE_URL}/payment/create`, null, {
+        params: {
+          total: Math.round(totalPrice * 100), // Convert to cents
         },
-      );
+      });
 
       console.log("Backend response:", data);
 
@@ -100,7 +96,7 @@ function Payment() {
             title: item.title,
             price: item.price,
             quantity: item.amount,
-            imageUrl: item.imageUrl, // ✅ THIS MUST COME FROM YOUR PRODUCT DATA!
+            imageUrl: item.image || item.imageUrl, // ✅ Try image first, then imageUrl
           })),
           totalAmount: totalPrice,
           paymentIntentId: paymentIntent.id,
