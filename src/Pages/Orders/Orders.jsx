@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Classes from "./Orders.module.css";
 import LayOut from "../../Components/LayOut/LayOut";
 import { DataContext } from "../../Components/DataProvider/DataProvider";
+import { BASE_URL } from '../../Api/endPoints';
 import axios from "axios";
 
 function Orders() {
@@ -16,7 +17,7 @@ function Orders() {
     }
 
     axios
-      .get(`http://localhost:5000/api/orders/user/${user.email}`)
+      .get(`${BASE_URL}/api/orders/user/${user.email}`)
       .then((res) => {
         console.log("Orders fetched:", res.data);
         setOrders(res.data);

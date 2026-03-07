@@ -126,7 +126,6 @@ function Payment() {
       // 9. Redirect to orders page after 2 seconds
       setTimeout(() => {
         navigate("/orders");
-        s;
       }, 2000);
     } catch (err) {
       console.error("Payment error:", err);
