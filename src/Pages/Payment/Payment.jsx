@@ -7,6 +7,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios"; // Make sure to install: npm install axios
 import { useNavigate } from "react-router-dom";
 import { Type } from "../../Utility/actiontype";
+import { BASE_URL } from "../../Api/endPoints";
 
 function Payment() {
   const [{ user, basket }, dispatch] = useContext(DataContext);
@@ -63,7 +64,7 @@ function Payment() {
       });
 
       const { data } = await axios.post(
-        "http://localhost:5000/payment/create",
+        `${BASE_URL}/payment/create`,
         null,
         {
           params: {
@@ -106,7 +107,7 @@ function Payment() {
         };
 
         console.log("Saving order with REAL images:", orderData);
-        await axios.post("http://localhost:5000/api/orders", orderData);
+        await axios.post(`${BASE_URL}/api/orders`, orderData);
       } catch (orderError) {
         console.error("Error saving order:", orderError);
       }
